@@ -44,6 +44,7 @@ namespace Assets.Scripts
         public void SetAlgorithm(int value)
         {
             _gameManager.Algorithm = (GameManager.Types) value;
+            this.Regenerate();
         }
     }
 }
