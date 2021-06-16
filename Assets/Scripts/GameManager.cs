@@ -9,7 +9,7 @@ namespace Assets.Scripts
     {
         [Range(0,100)]
         public float RandomFillPercent;
-        [Range(0, 100)]
+        [Range(1, 100)]
         public float Speed;
         public int Height;
         public int Width;
