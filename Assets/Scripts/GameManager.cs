@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -7,15 +8,16 @@ namespace Assets.Scripts
     public class GameManager : MonoBehaviour
     {
         [Range(0,100)]
-        public int RandomFillPercent;
+        public float RandomFillPercent;
         [Range(0, 100)]
-        public int Speed;
+        public float Speed;
         public int Height;
         public int Width;
         public String Seed;
         public bool UseRandomSeed;
         public GameObject Node;
         public float Padding = 1f;
+        public TMP_Text GenerationText;
 
         public bool HasStarted = false;
         public enum Types { GameOfLife, CaveGeneration };
@@ -51,9 +53,11 @@ namespace Assets.Scripts
             {
                 GenerateBoard();
             }
+
+            GenerationText.text = Generation.ToString();
         }
 
-        private void GenerateBoard()
+        public void GenerateBoard()
         {
             Generation = 0;
             _nodeValues = new bool[Width, Height];
@@ -177,7 +181,10 @@ namespace Assets.Scripts
             {
                 for (int j = -1; j <= 1; j++)
                 {
-                    if ((x + i) >= 0 && (x + i) < Width && (y + j) >= 0 && (y + j) < Height && _nodeValues[x + i, y + j] == true) count++;
+                    int col = (x + i + Width) % Width;
+                    int row = (y + j + Height) % Height;
+                    count += _nodeValues[col, row] ? 1 : 0;
+                    // if ((x + i) >= 0 && (x + i) < Width && (y + j) >= 0 && (y + j) < Height && _nodeValues[x + i, y + j] == true) count++;
                 }
             }
             if (_nodeValues[x, y] == true) count--; // Remove the cell we are looking at, since it's not its own neighbor
